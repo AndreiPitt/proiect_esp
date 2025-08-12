@@ -76,6 +76,11 @@
   max-height: 100%;  
 }
 
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+
 .legend {
   flex: 4.75;
   display: flex;
@@ -126,6 +131,8 @@
 
 .view-buttons{
   flex: 2;
+  justify-content: space-between;
+  padding-left: 25px;
 }
 
 .buttons {
@@ -164,7 +171,8 @@
   }
   .vout {background-color: red;}
   .gnd {background-color: black;}
-  .gpio { background-color: #613cb6; } 
+  .gpioout { background-color: #28A745;} 
+  .gpioin { background-color: #007ACC;} 
   .pwm {background-color: rgb(7, 246, 162);}
   .adc { background-color: rgb(190, 126, 7); }   
   .neconfig { background-color: rgb(116, 113, 113); }
