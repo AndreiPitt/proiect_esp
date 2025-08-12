@@ -93,6 +93,7 @@
               <div class="dashboard-content-title">Title 5</div>
               <div class="dashboard-content-box">content</div>
             </li>
+            
         </ul>
         </div>
         <div class="item c">
@@ -126,70 +127,76 @@
 
     <!-- Config Panel -->
     <div class="control-window">
-      <p class="config-title">Pin 1</p>
-      <p class="function-title">Function</p>
-      <select class="function-dropdown" id="function-dropdown" onchange="selectFunctionPin()">
-        <option value="GPIO">GPIO</option>
-        <option value="PWM">PWM</option>
-        <option value="ADC">ADC</option>
-      </select>
 
-      <!--CONTENT-->
-      <div class="function-content-gpio" style="display: none;">
-        <div class="radio-group">
-          <div class="radio-option">
-            <input type="radio" id="inputOption" name="pinFunction" value="input" checked>
-            <label for="inputOption">Input</label>
+      <div class="unconfigured-window" style="display: none;">
+          <p class="unconfigured-title">Select a pin</p>
+      </div>
+
+      <div class="config-window" style="display: block;">
+        <p class="config-title">Pin 1</p>
+        <p class="function-title">Function</p>
+        <select class="function-dropdown" id="function-dropdown" onchange="selectFunctionPin()">
+          <option value="GPIO">GPIO</option>
+          <option value="PWM">PWM</option>
+          <option value="ADC">ADC</option>
+        </select>
+
+        <!--CONTENT-->
+        <div class="function-content-gpio" style="display: block;">
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="inputOption" name="pinFunction" value="input" checked>
+              <label for="inputOption">Input</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="outputOption" name="pinFunction" value="output">
+              <label for="outputOption">Output</label>
+            </div>
           </div>
-          <div class="radio-option">
-            <input type="radio" id="outputOption" name="pinFunction" value="output">
-            <label for="outputOption">Output</label>
+          <div class="gpio-buttons">
+            <button class="btn gpio-button-high">Set HIGH</button>
+            <button class="btn gpio-button-low">Set LOW</button>
           </div>
         </div>
-        <div class="gpio-buttons">
-          <button class="btn gpio-button-high">Set HIGH</button>
-          <button class="btn gpio-button-low">Set LOW</button>
-        </div>
-      </div>
 
-      <div class="function-content-pwm" style="display: none;">
-        <div class="freq-group">
-          <label for="inputFreq">Set frequency:</label>
-          <input type="text" id="inputFreq">
-        </div>
+        <div class="function-content-pwm" style="display: none;">
+          <div class="freq-group">
+            <label for="inputFreq">Set frequency:</label>
+            <input type="text" id="inputFreq">
+          </div>
 
-        <form class="slider-group" oninput="result.value = idRange.value + '%'">
-          <label for="idRange">Set duty:</label>
-          <input type="range" min="1" max="100" value="50" class="slider" id="idRange">
-          <output name="result" for="idRange">50%</output>
-        </form>
+          <form class="slider-group" oninput="result.value = idRange.value + '%'">
+            <label for="idRange">Set duty:</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="idRange">
+            <output name="result" for="idRange">50%</output>
+          </form>
 
-        <div class="phase-group" >
-          <label for="inputPhase">Phase shift:</label>
-          <input type="number" id="inputPhase">
-        </div>
-      </div>
-
-      <div class="function-content-adc" style="display: block;">
-        <div class="adc-module-group">
-          <p class="adc-title">Channel: <span id="adc_module">ADC1</span>_<span id="adc_channel">0</span></p>
+          <div class="phase-group" >
+            <label for="inputPhase">Phase shift:</label>
+            <input type="number" id="inputPhase">
+          </div>
         </div>
 
-        <div class="type-senzor-group">
-          <select class="function-dropdown">
-            <option>Raw Value</option>
-            <option>Voltage</option>
-            <option>Moisture</option>
-            <option>Temperature</option>
-          </select>
+        <div class="function-content-adc" style="display: none;">
+          <div class="adc-module-group">
+            <p class="adc-title">Channel: <span id="adc_module">ADC1</span>_<span id="adc_channel">0</span></p>
+          </div>
+
+          <div class="type-senzor-group">
+            <select class="function-dropdown">
+              <option>Raw Value</option>
+              <option>Voltage</option>
+              <option>Moisture</option>
+              <option>Temperature</option>
+            </select>
+          </div>
         </div>
 
-      </div>
-
-      <!--Bottom-->
-      <div class="function-buttons">
-        <button class="save-button">Apply</button>
-        <button class="cancel-button">Cancel</button>
+        <!--Bottom-->
+        <div class="function-buttons">
+          <button class="save-button">Apply</button>
+          <button class="cancel-button">Cancel</button>
+        </div>
       </div>
   </div>
 
