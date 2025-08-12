@@ -1,0 +1,419 @@
+.container {
+  position: relative;
+  left: 50px;
+  top: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 700px;
+  width: 1400px;
+  gap: 10px;
+}
+
+.view-window {
+  background-color: rgb(250, 242, 242);
+  display: flex;
+  flex-direction: column;
+  display: inline-block;
+  flex: 2;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.view-window {
+  background-color: rgb(250, 242, 242);
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.grid-layout {
+  display: grid;
+  height: 100%; /* ocupă toată înălțimea lui .view-window */
+  width: 100%;  /* ocupă toată lățimea */
+  grid-template-columns: 70% 30%; /* două coloane pe primul rând */
+  grid-template-rows: 85% 15%;   /* două rânduri cu proporții */
+  gap: 10px;
+}
+
+/* Poziționare în grid */
+.item.a {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.item.b {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.item.c {
+  grid-row: 2;
+  grid-column: 1 / span 2; /* se întinde pe ambele coloane */
+  display: flex;
+}
+
+.dashboard-title {
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+  border: rgb(201, 201, 211, 0.8);
+  border-bottom: 2px solid #aaaaa626; 
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.dashboard-content {
+  display: block;
+  background-color: rgb(250, 242, 242);
+  margin-top: 20px;
+  height: 80px;
+  border: 2px solid #aaaaa626;
+}
+
+.dashboard-list {
+  list-style: none; /* fără buline */
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;    /* scroll vertical */
+  max-height: 100%;  
+}
+
+
+
+.legend {
+  flex: 4.75;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+/* Culori pentru fiecare tip */
+.input {
+  background-color: #007BFF; /* Albastru */
+}
+
+.output {
+  background-color: #28A745; /* Verde */
+}
+
+.adc {
+  background-color: #6F42C1; /* Mov */
+}
+
+.pwm {
+  background-color: rgb(7, 246, 162);/* Galben */
+}
+
+.label {
+  font-size: 13px;
+  color: black; /* Text alb pe fundal roșu */
+  font-weight: bold;
+}
+
+
+.view-buttons{
+  flex: 2;
+}
+
+.buttons {
+  position: relative;
+  top: 22px;
+  left: -10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin: 1px;
+}
+
+.board {
+  position: relative;
+  display: inline-block;
+  padding: 30px;
+  margin-left: 150px;
+}
+.board img {
+  display: block;
+  max-width: 400px;
+  height: auto;
+}
+.pin {
+  position: absolute;
+  padding: 8px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  }
+  .vout {background-color: red;}
+  .gnd {background-color: black;}
+  .gpio { background-color: #613cb6; } 
+  .pwm {background-color: rgb(7, 246, 162);}
+  .adc { background-color: rgb(190, 126, 7); }   
+  .neconfig { background-color: rgb(116, 113, 113); }
+  .pin:hover::after {
+  content: attr(data-name);
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.control-window {
+  background-color: rgb(250, 242, 242);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 10px;    
+}
+
+.config-title {
+  margin-left: 30px;
+  margin-top: 35px;
+}
+
+.function-title {
+  margin-left: 30px;
+  margin-top: 15px;
+  font-weight: normal;
+}
+
+.function-dropdown {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.function-content-gpio,
+.function-content-adc,
+.function-content-pwm{
+  margin: 20px;
+  margin-bottom: 0;
+  width: auto;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.freq-group,
+.slider-group,
+.phase-group {
+  margin-left: 10px; 
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+#inputFreq,
+#inputPhase {
+  height: 30px;
+  background-color: #fff;
+  border-color: #ccc;
+  border-style: solid;
+  margin-top: 10px;
+  margin-right: auto;
+  border-radius: 10px;
+  display: block;
+  padding-right: 200px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;  
+  background: #fff;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: rgb(7, 246, 162);
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgb(7, 246, 162);
+  cursor: pointer;
+}
+
+
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Spațiu între opțiuni */
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.radio-option {
+  /* Asigură poziționarea corectă pentru input-ul ascuns */
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Ascunde butonul radio nativ */
+.radio-option input[type="radio"] {
+  -webkit-appearance: none; /* Pentru browsere WebKit */
+  -moz-appearance: none;    /* Pentru browsere Mozilla */
+  appearance: none;         /* Standard */
+  position: absolute;       /* Ascunde-l, dar păstrează-l accesibil */
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Stilizează eticheta (label) pentru a acționa ca butonul radio vizibil */
+.radio-option label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px; /* Dimensiunea textului */
+  color: #333;     /* Culoarea textului */
+  padding: 5px 0;  /* Spațiu intern */
+}
+
+/* Creează cercul personalizat înainte de textul etichetei */
+.radio-option label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;         /* Lățimea cercului */
+  height: 20px;        /* Înălțimea cercului */
+  border: 2px solid #ccc; /* Culoarea marginii pentru starea nealeasă */
+  border-radius: 50%;  /* Face elementul circular */
+  margin-right: 10px;  /* Spațiu între cerc și text */
+  box-sizing: border-box; /* Include padding și border în lățime/înălțime */
+  flex-shrink: 0;      /* Împiedică micșorarea cercului în flexbox */
+  transition: all 0.2s ease-in-out; /* Tranziție lină pentru schimbările de stil */
+}
+
+
+.radio-option input[type="radio"]:checked + label::before {
+  border-color: #007bff;   
+  background-color: #007bff; 
+}
+
+/* .radio-option input[type="radio"][value="output"]:checked + label::before {
+
+  } */
+
+
+.adc-module-group {
+  margin-left: 20px;
+}
+
+.adc-title {
+  font-weight: normal;
+}
+
+#adc_module,
+#adc_channel{
+  margin-left: 10px;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.type-senzor-group {
+  
+}
+
+
+.gpio-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 50px;
+}
+
+.gpio-button-high {
+  flex: 1;
+  padding: 5px;
+  margin: 5px;
+}
+
+.gpio-button-low {
+  flex: 1;
+  padding: 5px;
+  margin: 5px;
+}
+
+.function-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px; 
+}
+
+.save-button,
+.cancel-button {
+  font-family: inherit;
+  width: 48%; 
+  padding: 10px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: rgb(25, 178, 208);
+  color: white;
+  border-color: rgb(25, 178, 208);
+}
+
+.cancel-button {
+  background-color: rgb(250, 242, 242);
+  color: black;
+}

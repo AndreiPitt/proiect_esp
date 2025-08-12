@@ -1,0 +1,383 @@
+/* === PALETĂ DE CULORI === */
+:root {
+  --color-bg-general: #F5F5F7;
+  --color-bg-panel: #FFFFFF;
+  --color-text-main: #222222;
+  --color-text-secondary: #555555;
+  --color-primary: #007ACC;
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-error: #D9534F;
+  --color-gray-interactive: #E0E0E0;
+  --color-gray-hover: #D0D0D0;
+}
+
+/* === FUNDAL ȘI FONT === */
+body {
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-bg-general);
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 16px;
+  color: var(--color-text-main);
+}
+
+p {
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: -10px;
+}
+
+/* === LAYOUT GENERAL === */
+.container {
+  position: relative;
+  left: 50px;
+  top: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 700px;
+  width: 1400px;
+  gap: 10px;
+}
+
+.view-window {
+  background-color: var(--color-bg-panel);
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.grid-layout {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 70% 30%;
+  grid-template-rows: 85% 15%;
+  gap: 10px;
+}
+
+/* === GRID ITEMS === */
+.item.a {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.item.b {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.item.c {
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  display: flex;
+}
+
+/* === DASHBOARD === */
+.dashboard-title {
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+  border-bottom: 2px solid var(--color-gray-interactive);
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.dashboard-content {
+  background-color: var(--color-bg-panel);
+  margin-top: 20px;
+  height: 80px;
+  border: 2px solid var(--color-gray-interactive);
+}
+
+.dashboard-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+/* === LEGEND === */
+.legend {
+  flex: 4.75;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+/* === LEGEND CULORI === */
+.input { background-color: var(--color-primary); }
+.output { background-color: var(--color-success); }
+.adc { background-color: var(--color-warning); }
+.pwm { background-color: var(--color-success); }
+.label { font-size: 13px; color: var(--color-text-main); font-weight: bold; }
+
+/* === BUTOANE GENERALE === */
+button {
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn {
+  background-color: var(--color-gray-interactive);
+  border: 1px solid #bbb;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  outline: none;
+  user-select: none;
+  box-shadow: none;
+}
+
+.btn:hover {
+  background-color: var(--color-gray-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.btn:active {
+  box-shadow: none;
+  transform: scale(0.98);
+}
+
+/* === BUTOANE SPECIALE === */
+.save-button,
+.cancel-button {
+  font-family: inherit;
+  width: 38%;
+  padding: 10px;
+  margin-right: 10px;
+  margin-left: 25px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  outline: none;
+  user-select: none;
+  box-shadow: none;
+}
+
+/* Save Button - stare normală */
+.save-button {
+  background-color: rgb(25, 178, 208);
+  color: white;
+  border-color: rgb(25, 178, 208);
+}
+
+/* Save Button - hover */
+.save-button:hover {
+  background-color: rgb(20, 150, 180);
+  border-color: rgb(20, 150, 180);
+  box-shadow: 0 4px 12px rgba(25, 178, 208, 0.4);
+  transform: scale(1.05);
+}
+
+/* Save Button - active (clic) */
+.save-button:active {
+  background-color: rgb(15, 120, 145);
+  border-color: rgb(15, 120, 145);
+  box-shadow: none;
+  transform: scale(0.98);
+}
+
+/* Cancel Button - stare normală */
+.cancel-button {
+  background-color: rgb(250, 242, 242);
+  color: black;
+  border-color: rgb(200, 190, 190);
+}
+
+/* Cancel Button - hover */
+.cancel-button:hover {
+  background-color: rgb(235, 220, 220);
+  border-color: rgb(180, 170, 170);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+/* Cancel Button - active (clic) */
+.cancel-button:active {
+  background-color: rgb(210, 190, 190);
+  border-color: rgb(150, 140, 140);
+  box-shadow: none;
+  transform: scale(0.98);
+}
+
+/* === VIEW BUTTONS === */
+.view-buttons { flex: 2; }
+.buttons { padding: 15px 50px; margin: 1px; }
+
+/* === BOARD ȘI PINI === */
+.board {
+  position: relative;
+  display: inline-block;
+  padding: 30px;
+  margin-left: 150px;
+}
+
+.board img {
+  display: block;
+  max-width: 400px;
+  height: auto;
+}
+
+.pin {
+  position: absolute;
+  padding: 8px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pin:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.vout { background-color: var(--color-error); }
+.gnd { background-color: var(--color-text-secondary); }
+.gpio { background-color: var(--color-primary); }
+.pwm { background-color: var(--color-success); }
+.adc { background-color: var(--color-warning); }
+.neconfig { background-color: var(--color-text-secondary); }
+
+/* Tooltip pin */
+.pin:hover::after {
+  content: attr(data-name);
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* === CONTROL WINDOW === */
+.control-window {
+  background-color: var(--color-bg-panel);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.config-title { margin-left: 30px; margin-top: 35px; }
+.function-title { margin-left: 30px; margin-top: 15px; font-weight: normal; }
+.function-dropdown {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--color-bg-panel);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.function-content-gpio,
+.function-content-adc,
+.function-content-pwm {
+  margin: 20px;
+  margin-bottom: 0;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.radio-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.radio-option input[type="radio"] {
+  appearance: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-option label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--color-text-main);
+}
+
+.radio-option label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 10px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.radio-option input[type="radio"]:checked + label::before {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.gpio-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 50px;
+}
+
+.gpio-button-high,
+.gpio-button-low {
+  flex: 1;
+  padding: 5px;
+  margin: 5px;
+}

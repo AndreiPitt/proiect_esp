@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(245, 236, 236);
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif; /* Font clar, tehnic */
+    font-size: 16px; /* Dimensiune de bază ușor lizibilă */
+    color: #222; /* Contrast bun */
+  }
+
+p {
+    font-size: 25px;
+    font-weight: bold;
+    margin-left: -10px;
+}
+
+button {
+  font-family: inherit; /* Folosește fontul setat pe body */
+}
+
+.btn {
+  background-color: #f0f0f0; /* Gri deschis */
+  border: 1px solid #bbb;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #e0e0e0;
+}
+
+.btn:active {
+  background-color: #d0d0d0;
+}

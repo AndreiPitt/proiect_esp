@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 Pinout</title>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="/styles/general.css">
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <div class="view-window">
+      <div class="grid-layout">
+        <div class="item a">
+          <div class="board">
+            <img src="Images/esp32-chip.png" alt="ESP32">
+
+            <!-- Pini stânga -->
+            <div class="pin gnd" style="top: 28.2%; left: 5%; border-radius: 5px;" data-name="GND" ></div>
+            <div class="pin vout" style="top: 32.9%; left: 5%; border-radius: 5px;" data-name="3V3"></div>
+            <div class="pin neconfig" style="top: 37.5%; left: 5%;" data-name="EN"></div>
+            <div class="pin neconfig" style="top: 41.8%; left: 5%;" data-name="GPIO36"></div>
+            <div class="pin neconfig" style="top: 46.3%; left: 5%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 50.8%; left: 5%;" data-name="NC"></div>
+            <div class="pin gpio" style="top: 55.3%; left: 5%;" data-name="GPIO1"></div>
+            <div class="pin adc" style="top: 60%; left: 5%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 64.5%; left: 5%;" data-name="NC"></div>
+            <div class="pin gpio" style="top: 68.9%; left: 5%;" data-name="GPIO1"></div>
+            <div class="pin adc" style="top: 73.4%; left: 5%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 77.8%; left: 5%;" data-name="NC"></div>
+            <div class="pin adc" style="top: 82.5%; left: 5%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 86.8%; left: 5%;" data-name="NC"></div>
+            
+
+            <!-- Pini dreapta -->
+            <div class="pin gnd" style="top: 28.2%; right: 0%; border-radius: 5px;" data-name="GND"></div>
+            <div class="pin adc" style="top: 32.9%; right: 0%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 37.5%; right: 0%;" data-name="NC"></div>
+            <div class="pin gpio" style="top: 41.8%; right: 0%;" data-name="GPIO1"></div>
+            <div class="pin adc" style="top: 46.3%; right: 0%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 50.8%; right: 0%;" data-name="NC"></div>
+            <div class="pin gpio" style="top: 55.3%; right: 0%;" data-name="GPIO1"></div>
+            <div class="pin adc" style="top: 60%; right: 0%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 64.5%; right: 0%;" data-name="NC"></div>
+            <div class="pin gpio" style="top: 68.9%; right: 0%;" data-name="GPIO1"></div>
+            <div class="pin adc" style="top: 73.4%; right: 0%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 77.8%; right: 0%;" data-name="NC"></div>
+            <div class="pin adc" style="top: 82.5%; right: 0%;" data-name="ADC2"></div>
+            <div class="pin neconfig" style="top: 86.8%; right: 0%;" data-name="NC"></div>
+            
+
+            <!-- Pini jos -->
+            <div class="pin gnd" style="bottom: 0%; left: 19.5%; border-radius: 5px;" data-name="GND"></div>
+            <div class="pin adc" style="bottom: 0%; left: 26.3%;" data-name="ADC21"></div>
+            <div class="pin neconfig" style="bottom: 0%; left: 33%;" data-name="NC"></div>
+            <div class="pin gpio" style="bottom: 0%; left: 40%;" data-name="GPIO20"></div>
+            <div class="pin adc" style="bottom: 0%; left: 46.5%;" data-name="ADC21"></div>
+            <div class="pin neconfig" style="bottom: 0%; left: 53.3%;" data-name="NC"></div>
+            <div class="pin gpio" style="bottom: 0%; left: 60.2%;" data-name="GPIO20"></div>
+            <div class="pin adc" style="bottom: 0%; left: 67%;" data-name="ADC21"></div>
+            <div class="pin neconfig" style="bottom: 0%; left: 73.7%;" data-name="NC"></div>
+            <div class="pin neconfig" style="bottom: 0%; left: 80.5%;" data-name="NC"></div>
+            
+          </div>
+        </div>
+        <div class="item b">
+          <p class="dashboard-title">
+            Dashboard
+          </p>
+          <ul class="dashboard-list">
+            <li class="dashboard-content">
+              <div class="dashboard-content-title">GPIO 13</div>
+              <div class="dashboard-content-box">Output</div>
+            </li>
+            <li class="dashboard-content">
+              <div class="dashboard-content-title">PWM</div>
+              <div class="dashboard-content-box">
+                <div>Freq: 500kHz</div>
+                <div>Duty: 50%</div>
+              </div>
+            </li>
+            <li class="dashboard-content">
+              <div class="dashboard-content-title">ADC</div>
+              <div class="dashboard-content-box">
+                <div>Channel A0</div>
+                <div>Value: 2.6V</div>
+              </div>
+            </li>
+            <li class="dashboard-content">
+              <div class="dashboard-content-title">Title 4</div>
+              <div class="dashboard-content-box">content</div>
+            </li>
+            <li class="dashboard-content">
+              <div class="dashboard-content-title">Title 5</div>
+              <div class="dashboard-content-box">content</div>
+            </li>
+        </ul>
+        </div>
+        <div class="item c">
+          <div class="legend">
+            <p>Legend:</p>
+            <div class="legend-item">
+              <span class="color-box input"></span>
+              <span class="label">GPIO INPUT</span>
+            </div>
+            <div class="legend-item">
+              <span class="color-box output"></span>
+              <span class="label">GPIO OUTPUT</span>
+            </div>
+            <div class="legend-item">
+              <span class="color-box adc"></span>
+              <span class="label">ADC</span>
+            </div>
+            <div class="legend-item">
+              <span class="color-box pwm"></span>
+              <span class="label">PWM</span>
+            </div>              
+          </div>
+          <div class="view-buttons">
+            <button class="btn buttons">&lt;</button>
+            <button class="btn buttons">&gt;</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Config Panel -->
+    <div class="control-window">
+      <p class="config-title">Pin 1</p>
+      <p class="function-title">Function</p>
+      <select class="function-dropdown" id="function-dropdown" onchange="selectFunctionPin()">
+        <option value="GPIO">GPIO</option>
+        <option value="PWM">PWM</option>
+        <option value="ADC">ADC</option>
+      </select>
+
+      <!--CONTENT-->
+      <div class="function-content-gpio" style="display: none;">
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="inputOption" name="pinFunction" value="input" checked>
+            <label for="inputOption">Input</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="outputOption" name="pinFunction" value="output">
+            <label for="outputOption">Output</label>
+          </div>
+        </div>
+        <div class="gpio-buttons">
+          <button class="btn gpio-button-high">Set HIGH</button>
+          <button class="btn gpio-button-low">Set LOW</button>
+        </div>
+      </div>
+
+      <div class="function-content-pwm" style="display: none;">
+        <div class="freq-group">
+          <label for="inputFreq">Set frequency:</label>
+          <input type="text" id="inputFreq">
+        </div>
+
+        <div class="slider-group">
+          <label for="idRange">Set duty:</label>
+          <input type="range" min="1" max="100" value="50" class="slider" id="idRange">
+          <label for="idRange"> 5%</label>
+        </div>
+
+        <div class="phase-group" >
+          <label for="inputPhase">Phase shift:</label>
+          <input type="number" id="inputPhase">
+        </div>
+      </div>
+
+      <div class="function-content-adc" style="display: block;">
+        <div class="adc-module-group">
+          <p class="adc-title">Channel: <span id="adc_module">ADC1</span>_<span id="adc_channel">0</span></p>
+        </div>
+
+        <div class="type-senzor-group">
+          <select class="function-dropdown">
+            <option>Value</option>
+            <option>Voltage</option>
+            <option>Moisture</option>
+            <option>Temperature</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!--Bottom-->
+      <div class="function-buttons">
+        <button class="save-button">Apply</button>
+        <button class="cancel-button">Cancel</button>
+      </div>
+  </div>
+
+</body>
+</html>
