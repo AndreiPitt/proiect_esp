@@ -1,10 +1,10 @@
 body {
     display: flex;
     justify-content: center;
-    background-color: rgb(245, 236, 236);
+    background-color: #F5F5F7;
     font-family: 'Segoe UI', Roboto, Arial, sans-serif; /* Font clar, tehnic */
     font-size: 16px; /* Dimensiune de bază ușor lizibilă */
-    color: #222; /* Contrast bun */
+    color: #222222; /* Contrast bun */
   }
 
 p {
@@ -14,23 +14,32 @@ p {
 }
 
 button {
-  font-family: inherit; /* Folosește fontul setat pe body */
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .btn {
-  background-color: #f0f0f0; /* Gri deschis */
+  background-color: #E0E0E0; /* Gri deschis */
   border: 1px solid #bbb;
   padding: 8px 16px;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  outline: none;
+  user-select: none;
+  box-shadow: none;
 }
 
 .btn:hover {
   background-color: #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
 }
 
 .btn:active {
   background-color: #d0d0d0;
+  box-shadow: none;
+  transform: scale(0.98);
 }
