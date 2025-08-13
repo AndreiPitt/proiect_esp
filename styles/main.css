@@ -63,7 +63,7 @@
   display: block;
   background-color: #FFFFFF;
   margin-top: 20px;
-  height: 80px;
+  height: 85px;
   border: 2px solid #E0E0E0;
 }
 
@@ -362,8 +362,8 @@
 
 
 .radio-option input[type="radio"]:checked + label::before {
-  border-color: #007bff;   
-  background-color: #007bff; 
+  border-color: #e5a845;;   
+  background-color: #e5a845; 
 }
 
 /* .radio-option input[type="radio"][value="output"]:checked + label::before {

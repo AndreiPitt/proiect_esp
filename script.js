@@ -5,13 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const configTitle = document.querySelector('.config-title');
     const functionDropdown = document.getElementById('function-dropdown');
     
+    const dashboardList = document.querySelector('.dashboard-list');
+
     const gpioOptions = document.getElementById('gpio-options');
     const outputOption = document.getElementById('output-option');
     const gpioOutputButtons = document.getElementById('gpio-output-buttons');
     const inputOnlyMessage = document.getElementById('input-only-message');
     const cancelButton = document.querySelector('.cancel-button');
     const saveButton = document.querySelector('.save-button');
-    // Adaugă variabila pentru butonul Reset
     const resetButton = document.querySelector('.reset-button');
     
     if (allPins.length === 0) {
@@ -67,20 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 functionDropdown.selectedIndex = 0;
             }
             
-            const isInputOnly = inputOnlyPins.includes(pinId);
-            if (isInputOnly) {
-                outputOption.style.display = 'none';
-                gpioOutputButtons.style.display = 'none';
-                inputOnlyMessage.style.display = 'block';
-                document.getElementById('inputOption').checked = true;
-            } else {
-                outputOption.style.display = 'block';
-                gpioOutputButtons.style.display = 'block';
-                inputOnlyMessage.style.display = 'none';
-                document.getElementById('inputOption').checked = false;
-                document.getElementById('outputOption').checked = false;
-            }
-            
             selectFunctionPin();
             
             if (activePin) {
@@ -121,20 +108,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selectedFunction = functionDropdown.value;
 
+        const newDashboardItem = document.createElement('li');
+        newDashboardItem.classList.add('dashboard-content');
+        let dashboardHTML = '';
+
         activePin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'neconfig');
 
         if (selectedFunction.includes('GPIO') || selectedFunction.includes('IO')) {
+            const isInputOnly = inputOnlyPins.includes(activePin.id);
             const isOutput = document.getElementById('outputOption').checked;
-            if (isOutput) {
-                activePin.classList.add('gpioout');
-            } else {
+            
+            const functionName = functionDropdown.value; // Preluăm numele funcției din dropdown
+            
+            if (isInputOnly || !isOutput) {
                 activePin.classList.add('gpioin');
+                dashboardHTML = `
+                    <div class="dashboard-content-title">${functionName}</div>
+                    <div class="dashboard-content-box">Input</div>
+                `;
+            } else {
+                activePin.classList.add('gpioout');
+                dashboardHTML = `
+                    <div class="dashboard-content-title">${functionName}</div>
+                    <div class="dashboard-content-box">Output</div>
+                `;
             }
         } else if (selectedFunction.includes('PWM')) {
             activePin.classList.add('pwm');
-        } else if (selectedFunction.includes('ADC')) {
+            const inputFreq = document.getElementById('inputFreq').value || 'N/A';
+            const idRange = document.getElementById('idRange').value || 'N/A';
+            const idphase = document.getElementById('inputPhase').value || 'N/A';
+            dashboardHTML = `
+                <div class="dashboard-content-title">PWM - ${activePin.id}</div>
+                <div class="dashboard-content-box">
+                    <div>Freq: ${inputFreq} Hz</div>
+                    <div>Duty: ${idRange} %</div>
+                    <div>Phase: ${idphase} &#966;</div>
+                </div>
+            `;
+        }  else if (selectedFunction.includes('ADC')) {
             activePin.classList.add('adc');
+            const adcPinData = activePin.getAttribute('data-name');
+            const adcChannelMatch = adcPinData.match(/ADC(\d)-(\d)/);
+            const adcChannel = adcChannelMatch ? `Channel: ADC${adcChannelMatch[1]} - ${adcChannelMatch[2]}` : 'N/A';
+            const adcValue = 0;
+
+            const adcSelect = document.querySelector('.function-content-adc .function-dropdown');
+            const adcSensorType = adcSelect.options[adcSelect.selectedIndex].text;
+
+            dashboardHTML = `
+                <div class="dashboard-content-title">ADC - ${activePin.id}</div>
+                <div class="dashboard-content-box">
+                    <div>${adcChannel}</div>
+                    <div>Type: ${adcSensorType}</div>
+                    <div>Value: ${adcValue}</div>
+                </div>
+            `;
         }
+
+        newDashboardItem.innerHTML = dashboardHTML;
+        dashboardList.appendChild(newDashboardItem);
 
         activePin.classList.remove('active');
         configWindow.style.display = 'none';
@@ -143,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lastChecked = null;
     });
 
-    // Functie pentru butonul Reset
     resetButton.addEventListener('click', () => {
         allPins.forEach(pin => {
             pin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'active');
@@ -153,6 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         unconfiguredWindow.style.display = 'block';
         activePin = null;
         lastChecked = null;
+        
+        dashboardList.innerHTML = '';
     });
 });
 
@@ -176,10 +210,11 @@ function selectFunctionPin() {
     });
     
     if (selectedFunction.includes('GPIO') || selectedFunction.includes('IO')) {
-        document.querySelector('.function-content-gpio').style.display = 'block';
+        const gpioContent = document.querySelector('.function-content-gpio');
+        gpioContent.style.display = 'block';
         
         const isInputOnly = inputOnlyPins.includes(pinId);
-
+        
         if (isInputOnly) {
             outputOption.style.display = 'none';
             gpioOutputButtons.style.display = 'none';
@@ -189,10 +224,9 @@ function selectFunctionPin() {
             outputOption.style.display = 'block';
             gpioOutputButtons.style.display = 'block';
             inputOnlyMessage.style.display = 'none';
-            document.getElementById('inputOption').checked = false;
+            inputOptionRadio.checked = false;
             document.getElementById('outputOption').checked = false;
         }
-
     } else if (selectedFunction.includes('PWM')) {
         document.querySelector('.function-content-pwm').style.display = 'block';
     } else if (selectedFunction.includes('ADC')) {
