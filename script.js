@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const excludedPins = ['GND', '3V3', 'NC', 'EN'];
+  const excludedPins = ['GND', '3.3V', 'RESET', '5V'];
 
   allPins.forEach(pin => {
     const pinName = pin.getAttribute('data-name');
