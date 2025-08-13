@@ -9,22 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Definește o listă de pini care trebuie ignorați
   const excludedPins = ['GND', '3V3', 'NC', 'EN'];
 
   allPins.forEach(pin => {
     const pinName = pin.getAttribute('data-name');
     
-    // Verifică dacă numele pinului se află în lista de pini excluși
     if (excludedPins.includes(pinName)) {
-      // Dacă pinul este pe lista de excludere, nu se adaugă event listener-ul
       return; 
     }
 
     // Pentru toți ceilalți pini, se adaugă event listener-ul normal
     pin.addEventListener('click', () => {
       console.log(`Pin clicked! ID: ${pin.id}`);
-      
+     // alert(`Pinul ${pinName} nu poate fi configurat!`);
+
       configWindow.style.display = 'block';
       unconfiguredWindow.style.display = 'none';
 

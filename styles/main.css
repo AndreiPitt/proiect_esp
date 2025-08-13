@@ -171,6 +171,7 @@
   }
   .vout {background-color: red;}
   .gnd {background-color: black;}
+  .en {background-color: rgb(188, 4, 201);}
   .gpioout { background-color: #28A745;} 
   .gpioin { background-color: #007ACC;} 
   .pwm {background-color: rgb(7, 246, 162);}
