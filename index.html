@@ -17,8 +17,8 @@
             <img src="/Images/wemos_d1_r32.png" alt="D1 R32 Board" class="board-image">
             <div class="pin neconfig" id="SCL" style="top: 145px; right: 4px;" data-name="SCL / GPIO22"></div>
             <div class="pin neconfig" id="SDA" style="top: 164px; right: 4px;" data-name="SDA / GPIO21"></div>
-            <div class="pin neconfig" id="RST_LEFT" style="top: 182px; right: 4px;" data-name="RESET"></div>
-            <div class="pin neconfig" id="GND_LEFT" style="top: 200px; right: 4px;" data-name="GND"></div>
+            <div class="pin neconfig" id="RST" style="top: 182px; right: 4px;" data-name="RESET"></div>
+            <div class="pin neconfig" id="GND" style="top: 200px; right: 4px;" data-name="GND"></div>
             <div class="pin neconfig" id="IO18" style="top: 220px; right: 4px;" data-name="SCK / GPIO18"></div>
             <div class="pin neconfig" id="IO19" style="top: 237px; right: 4px;" data-name="MISO / GPIO19"></div>
             <div class="pin neconfig" id="IO23" style="top: 254px; right: 4px;" data-name="MOSI / GPIO23"></div>
@@ -36,11 +36,11 @@
 
             <div class="pin neconfig" id="IO0" style="top: 211px; left: 17px;" data-name="RTC11 / Touch1 / ADC2-1 / GPIO0"></div>
             <div class="pin neconfig" id="5V" style="top: 230px; left: 17px;" data-name="5V"></div>
-            <div class="pin neconfig" id="RST_RIGHT" style="top: 248px; left: 17px;" data-name="RESET"></div>
+            <div class="pin neconfig" id="RST" style="top: 248px; left: 17px;" data-name="RESET"></div>
             <div class="pin neconfig" id="3V3" style="top: 267px; left: 17px;" data-name="3.3V"></div>
-            <div class="pin neconfig" id="5V_B" style="top: 285px; left: 17px;" data-name="5V"></div>
-            <div class="pin neconfig" id="GND_RIGHT" style="top: 303px; left: 17px;" data-name="GND"></div>
-            <div class="pin neconfig" id="GND_VIN" style="top: 322px; left: 17px;" data-name="GND"></div>
+            <div class="pin neconfig" id="5V" style="top: 285px; left: 17px;" data-name="5V"></div>
+            <div class="pin neconfig" id="GND" style="top: 303px; left: 17px;" data-name="GND"></div>
+            <div class="pin neconfig" id="GND" style="top: 322px; left: 17px;" data-name="GND"></div>
             <div class="pin neconfig" id="VIN" style="top: 341px; left: 17px;" data-name="VIN"></div>
             <div class="pin neconfig" id="IO2" style="top: 376px; left: 17px;" data-name="RTC12 / Touch2 / ADC2-2 / GPIO2"></div>
             <div class="pin neconfig" id="IO4" style="top: 394px; left: 17px;" data-name="RTC10 / Touch0 / ADC2-0 / GPIO4"></div>
@@ -105,12 +105,11 @@
             </div>              
           </div>
           <div class="view-buttons">
-            <button class="btn buttons">&lt;</button>
-            <button class="btn buttons">&gt;</button>
+            <button class="btn buttons reset-button">Reset</button>
+            <button class="btn buttons">Show</button>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- Config Panel -->
@@ -121,7 +120,7 @@
       </div>
 
       <div class="config-window" style="display: none;">
-        <p class="config-title">Pin 1</p>
+        <p class="config-title"></p>
         <p class="function-title">Function</p>
         <select class="function-dropdown" id="function-dropdown" onchange="selectFunctionPin()">
           <option value="GPIO">GPIO</option>
@@ -131,20 +130,21 @@
 
         <!--CONTENT-->
         <div class="function-content-gpio" style="display: block;">
-          <div class="radio-group">
+          <div class="radio-group" id="gpio-options">
             <div class="radio-option">
               <input type="radio" id="inputOption" name="pinFunction" value="input" checked>
               <label for="inputOption">Input</label>
             </div>
-            <div class="radio-option">
+            <div class="radio-option" id="output-option">
               <input type="radio" id="outputOption" name="pinFunction" value="output">
               <label for="outputOption">Output</label>
             </div>
           </div>
-          <div class="gpio-buttons">
+          <div class="gpio-buttons" id="gpio-output-buttons">
             <button class="btn gpio-button-high">Set HIGH</button>
             <button class="btn gpio-button-low">Set LOW</button>
           </div>
+          <p id="input-only-message" style="display: none;">Acest pin poate fi configurat doar ca intrare (Input).</p>
         </div>
 
         <div class="function-content-pwm" style="display: none;">

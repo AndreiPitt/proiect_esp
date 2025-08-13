@@ -139,8 +139,8 @@
   left: -10px;
   padding-top: 15px;
   padding-bottom: 15px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
   margin: 1px;
 }
 
@@ -229,6 +229,9 @@
 .function-title {
   margin-left: 30px;
   margin-top: 15px;
+  font-weight: normal;
+}
+.input-only-message {
   font-weight: normal;
 }
 
