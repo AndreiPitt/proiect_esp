@@ -1,3 +1,46 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const allPins = document.querySelectorAll('.pin');
+  const unconfiguredWindow = document.querySelector('.unconfigured-window');
+  const configWindow = document.querySelector('.config-window');
+  const configTitle = document.querySelector('.config-title');
+
+  if (allPins.length === 0) {
+    console.error("Nu s-au găsit elemente cu clasa '.pin'. Verifică selectorul!");
+    return;
+  }
+
+  // Definește o listă de pini care trebuie ignorați
+  const excludedPins = ['GND', '3V3', 'NC', 'EN'];
+
+  allPins.forEach(pin => {
+    const pinName = pin.getAttribute('data-name');
+    
+    // Verifică dacă numele pinului se află în lista de pini excluși
+    if (excludedPins.includes(pinName)) {
+      // Dacă pinul este pe lista de excludere, nu se adaugă event listener-ul
+      return; 
+    }
+
+    // Pentru toți ceilalți pini, se adaugă event listener-ul normal
+    pin.addEventListener('click', () => {
+      console.log(`Pin clicked! ID: ${pin.id}`);
+      
+      configWindow.style.display = 'block';
+      unconfiguredWindow.style.display = 'none';
+
+      configTitle.textContent = `Pin ${pin.id.replace('pin_', '')} - ${pinName}`;
+
+      document.querySelectorAll('.pin.active').forEach(p => p.classList.remove('active'));
+      pin.classList.add('active');
+    });
+  });
+});
+
+
+
+
+
+
 function selectFunctionPin() {
     let functionSelect = document.getElementById('function-dropdown');
     let selectedFunction = functionSelect.value;
