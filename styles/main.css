@@ -63,7 +63,7 @@
   display: block;
   background-color: #FFFFFF;
   margin-top: 20px;
-  height: 85px;
+  height: 80px;
   border: 2px solid #E0E0E0;
 }
 
@@ -263,6 +263,22 @@
   font-size: 20px;
   margin-top: 20px;
   margin-bottom: 15px;
+}
+
+.db-rise-group,
+.db-fall-group {
+  margin-left: 10px;
+  font-size: 20px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+#inputRise,
+#inputFall{
+  height: 20px;
+  margin-left: 10px;
+  width: 250px;
+
 }
 
 #inputFreq,

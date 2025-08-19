@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="dashboard-content-box">
                     <div>Freq: ${inputFreq} Hz</div>
                     <div>Duty: ${idRange} %</div>
-                    <div>Phase: ${idphase} &#966;</div>
+                    <div>Phase: ${idphase} &deg;</div>
                 </div>
             `;
         }  else if (selectedFunction.includes('ADC')) {
