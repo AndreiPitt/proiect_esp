@@ -12,13 +12,33 @@ const char *password = "12345678";
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
+// Structură pentru a stoca configurațiile pinilor
+struct PinConfig {
+    String function;
+    String type;
+    int value; // folosit pentru GPIO Output
+    int duty;  // folosit pentru PWM
+};
+
+// Array pentru a stoca configurațiile pinilor.
+PinConfig pinConfigurations[40];
+
 // Funcție ajutătoare pentru a extrage numărul GPIO dintr-un string de tip "IOXX"
 int getGpioNum(const char* pinIdString) {
-    if (pinIdString == nullptr || strlen(pinIdString) < 3 || pinIdString[0] != 'I' || pinIdString[1] != 'O') {
-        return -1; // Format invalid
+    if (strstr(pinIdString, "IO") != nullptr) {
+        return atoi(pinIdString + 2);
+    } else if (strstr(pinIdString, "D") != nullptr) {
+        return atoi(pinIdString + 1);
+    } else if (strcmp(pinIdString, "SCL") == 0) {
+        return 22;
+    } else if (strcmp(pinIdString, "SDA") == 0) {
+        return 21;
+    } else if (strcmp(pinIdString, "RX0") == 0) {
+        return 3;
+    } else if (strcmp(pinIdString, "TX0") == 0) {
+        return 1;
     }
-    // atoi va converti "22" din "IO22" la 22
-    return atoi(pinIdString + 2);
+    return -1;
 }
 
 // Funcția de gestionare a evenimentelor WebSocket
@@ -28,8 +48,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
     } else if (type == WS_EVT_DISCONNECT) {
         Serial.printf("WebSocket client #%u disconnected\n", client->id());
     } else if (type == WS_EVT_DATA) {
-        // Parsarea datelor JSON primite de la browser
-        StaticJsonDocument<256> doc;
+        StaticJsonDocument<512> doc;
         DeserializationError error = deserializeJson(doc, data, len);
 
         if (error) {
@@ -38,7 +57,6 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
             return;
         }
 
-        // Extrage comanda și ID-ul pinului
         const char* command = doc["command"];
         const char* pinIdStr = doc["pinId"];
 
@@ -47,42 +65,40 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
             return;
         }
 
-        Serial.printf("Received command: %s for pin %s\n", command, pinIdStr);
         int gpio_num = getGpioNum(pinIdStr);
-        if (gpio_num == -1) {
-            Serial.println("Invalid pinId format.");
+        if (gpio_num == -1 || gpio_num >= 40) {
+            Serial.println("Invalid pinId format or not a configurable pin.");
             return;
         }
 
-        // Procesează comenzile
+        Serial.printf("Received command: %s for pin %s (GPIO %d)\n", command, pinIdStr, gpio_num);
+
         if (strcmp(command, "configurePin") == 0) {
-            const char* selectedFunction = doc["function"];
-            if (selectedFunction == nullptr) return;
-
-            // Logica pentru configurarea unui pin GPIO
-            if (strcmp(selectedFunction, "GPIO") == 0 || strcmp(selectedFunction, "IO") == 0) {
+            const char* function = doc["function"];
+            
+            if (strstr(function, "GPIO") != nullptr || strstr(function, "IO") != nullptr) {
                 const char* pinType = doc["type"];
-                if (pinType == nullptr) return;
-
                 if (strcmp(pinType, "Output") == 0) {
                     pinMode(gpio_num, OUTPUT);
-                    Serial.printf("Configured GPIO %d as OUTPUT\n", gpio_num);
-                    
-                    // Setează o valoare inițială dacă este specificată (pentru a simplifica logica)
-                    if (doc.containsKey("value")) {
-                        int newState = doc["value"];
-                        digitalWrite(gpio_num, newState);
-                        Serial.printf("Set initial state for GPIO %d to %d\n", gpio_num, newState);
-                    }
+                    int value = doc["value"] | 0;
+                    digitalWrite(gpio_num, value);
+                    Serial.printf("Configured GPIO %d as OUTPUT, initial state %d\n", gpio_num, value);
                 } else if (strcmp(pinType, "Input") == 0) {
                     pinMode(gpio_num, INPUT);
                     Serial.printf("Configured GPIO %d as INPUT\n", gpio_num);
                 }
+            } else if (strstr(function, "PWM") != nullptr) {
+                int duty = doc["duty"] | 50;
+                
+                // Configurare PWM simplificată folosind analogWrite
+                analogWrite(gpio_num, map(duty, 0, 100, 0, 255));
+
+                Serial.printf("Configured GPIO %d as PWM. Duty: %d%%\n", gpio_num, duty);
+            } else if (strstr(function, "ADC") != nullptr) {
+                Serial.printf("Configured GPIO %d as ADC\n", gpio_num);
             }
-            // Aici poți adăuga logica pentru PWM, ADC etc.
         } else if (strcmp(command, "setPinState") == 0) {
-            // Logica pentru setarea stării unui pin deja configurat
-            int newState = doc["value"]; // 0 sau 1
+            int newState = doc["value"];
             digitalWrite(gpio_num, newState);
             Serial.printf("Set GPIO %d to %d\n", gpio_num, newState);
         }
@@ -93,13 +109,11 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
 void initWebServer() {
     Serial.begin(115200);
 
-    // Conectare la Wi-Fi (mod Access Point)
-    WiFi.softAP(ssid, password, 1);
+    WiFi.softAP(ssid, password);
     delay(2000);
     Serial.print("Access Point IP: ");
     Serial.println(WiFi.softAPIP());
 
-    // Inițializare LittleFS
     if (!LittleFS.begin(true)) {
         Serial.println("LittleFS Mount Failed!");
         return;
@@ -107,19 +121,15 @@ void initWebServer() {
         Serial.println("LittleFS Mounted Successfully.");
     }
     
-    // Gestionează evenimentele WebSocket
     ws.onEvent(onWsEvent);
     server.addHandler(&ws);
 
-    // Serveste fișierele statice din LittleFS
     server.serveStatic("/", LittleFS, "/");
 
-    // Răspunde la cererea pentru pagina de pornire (index.html)
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(LittleFS, "/index.html", "text/html");
     });
     
-    // Tratare de erori 404
     server.onNotFound([](AsyncWebServerRequest *request) {
         request->send(404, "text/plain", "Not found");
     });

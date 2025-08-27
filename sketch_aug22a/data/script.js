@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Variabile globale pentru a gestiona starea aplicației
     let websocket;
     let activePin = null;
-    let lastChecked = null;
     const pinConfigurations = {};
 
     // Pinii cu funcții speciale
@@ -26,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.querySelector('.save-button');
     const resetButton = document.querySelector('.reset-button');
     const inputOptionRadio = document.getElementById('inputOption');
+    const dutyRange = document.getElementById('idRange');
+    const dutyOutput = document.getElementById('dutyOutput');
 
     if (allPins.length === 0) {
         console.error("No elements with class '.pin' were found. Check the selector!");
@@ -35,8 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Funcții de comunicare WebSocket
     function initWebSocket() {
         console.log('Trying to open a WebSocket connection...');
-        // Verifică dacă hostname-ul este 'localhost' sau un IP real
-        const gateway = `ws://${window.location.hostname}/ws`;
+        const gateway = `ws://192.168.4.1/ws`; // IP-ul fix al ESP32 în mod Access Point
         websocket = new WebSocket(gateway);
         websocket.onopen = onOpen;
         websocket.onclose = onClose;
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function onClose(event) {
-        console.log('WebSocket connection closed. Retrying in 2 seconds...');
-        setTimeout(initWebSocket, 2000);
+        console.log('WebSocket connection closed. Reconnecting...');
+        setTimeout(initWebSocket, 2000); // Reconectează după 2 secunde
     }
 
     function onMessage(event) {
@@ -192,6 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pinDataName = pin.getAttribute('data-name');
             let functions = pinDataName ? pinDataName.split(' / ').map(f => f.trim()) : [];
+            
+            // Adaugă funcția "GPIO" în listă pentru toți pinii (exceptând cei excluși)
+            if (!functions.some(f => f.includes('GPIO') || f.includes('IO'))) {
+                functions.unshift('GPIO');
+            }
+            
             const isPwmPin = pwmPins.includes(pinId) || (pinId === 'TX0' && pwmPins.includes('IO1')) || (pinId === 'RX0' && pwmPins.includes('IO3'));
             if (isPwmPin && !functions.includes('PWM')) {
                 functions.push('PWM');
@@ -239,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
-        lastChecked = null;
     });
 
     // Event listener pentru butonul de "Save"
@@ -262,11 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 configData.value = 0; // Stare inițială LOW
             }
         } else if (selectedFunction.includes('PWM')) {
-            configData.freq = document.getElementById('inputFreq').value;
-            configData.duty = document.getElementById('idRange').value;
-            configData.phase = document.getElementById('inputPhase').value;
-            configData.rise = document.getElementById('inputRise').value;
-            configData.fall = document.getElementById('inputFall').value;
+            configData.freq = parseInt(document.getElementById('inputFreq').value, 10) || 1000;
+            configData.duty = parseInt(document.getElementById('idRange').value, 10) || 50;
         } else if (selectedFunction.includes('ADC')) {
             const adcSelect = document.querySelector('.function-content-adc .function-dropdown');
             configData.sensorType = adcSelect.options[adcSelect.selectedIndex].text;
@@ -290,13 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else if (selectedFunction.includes('PWM')) {
             activePin.classList.add('pwm');
-            const { freq, duty, phase } = configData;
+            const { freq, duty } = configData;
             dashboardHTML = `
                 <div class="dashboard-content-title">PWM - ${pinId}</div>
                 <div class="dashboard-content-box">
                     <div>Freq: ${freq || 'N/A'} Hz</div>
                     <div>Duty: ${duty || 'N/A'} %</div>
-                    <div>Phase: ${phase || 'N/A'} &deg;</div>
                 </div>
             `;
         } else if (selectedFunction.includes('ADC')) {
@@ -327,7 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
-        lastChecked = null;
     });
 
     // Event listener pentru butonul de "Reset"
@@ -339,7 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
-        lastChecked = null;
 
         Object.keys(pinConfigurations).forEach(key => delete pinConfigurations[key]);
         dashboardList.innerHTML = '';
@@ -349,24 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
     functionDropdown.addEventListener('change', selectFunctionPin);
 
     // Adaugă event listener pentru slider-ul de duty cycle
-    const dutyRange = document.getElementById('idRange');
-    const dutyOutput = document.getElementById('dutyOutput');
     if (dutyRange && dutyOutput) {
         dutyRange.addEventListener('input', () => {
             dutyOutput.textContent = dutyRange.value + '%';
         });
     }
-
-    // Funcționalitate pentru butoanele radio (eliminată din codul tău, am restabilit-o ca o soluție mai bună)
-    const radioButtons = document.querySelectorAll('.radio-group input[type="radio"]');
-    radioButtons.forEach(radio => {
-        radio.addEventListener('click', function(event) {
-            if (this === lastChecked) {
-                this.checked = false;
-                lastChecked = null;
-            } else {
-                lastChecked = this;
-            }
-        });
-    });
 });
