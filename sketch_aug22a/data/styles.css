@@ -1,3 +1,6 @@
+/*
+ * Stiluri Generale
+ */
 body {
     background-color: #F5F5F7;
     font-family: 'Segoe UI', Roboto, Arial, sans-serif;
@@ -8,7 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
 p {
     font-size: 25px;
@@ -17,258 +20,306 @@ p {
 }
 
 button {
-  font-family: inherit;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .btn {
-  background-color: #ccc; /* Gri deschis */
-  border: 1px solid #ccc;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
-  outline: none;
-  user-select: none;
-  box-shadow: none;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    outline: none;
+    user-select: none;
+    box-shadow: none;
 }
 
 .btn:hover {
-  background-color: #e0e0e0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05);
+    background-color: #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
 }
 
 .btn:active {
-  background-color: #d0d0d0;
-  box-shadow: none;
-  transform: scale(0.98);
+    background-color: #d0d0d0;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
-
+/*
+ * Layout-ul Principal
+ */
 .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  margin: 0 auto;
-  max-width: 1400px;
-  width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 1400px;
+    width: 90%;
 }
 
 .view-window {
-  background-color: #FFFFFF;
-  display: flex;
-  flex-direction: column;
-  flex: 2;
-  margin: 10px;
-  border-radius: 10px;
-  padding: 10px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .grid-layout {
-  display: grid;
-  height: 100%; 
-  width: 100%;  
-  grid-template-columns: 70% 30%; 
-  grid-template-rows: 85% 15%;   
-  gap: 10px;
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 85% 15%;
+    gap: 10px;
 }
 
 .item.a {
-  grid-row: 1;
-  grid-column: 1;
+    grid-row: 1;
+    grid-column: 1;
 }
 
 .item.b {
-  grid-row: 1;
-  grid-column: 2;
-  display: flex;
-  flex-direction: column;
-  margin-right: 10px;
+    grid-row: 1;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    height: 100%;
+    /* Ajustare cheie pentru bara de derulare */
+    min-height: 0;
 }
 
 .item.c {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/*
+ * Stiluri pentru Dashboard
+ */
 .dashboard-title {
-  font-size: 20px;
-  font-style: italic;
-  font-weight: bold;
-  border: rgb(201, 201, 211, 0.8);
-  border-bottom: 2px solid #E0E0E0; 
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 5px;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    border-bottom: 2px solid #E0E0E0;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+}
+
+.dashboard-item {
+    margin-top: 10px;
 }
 
 .dashboard-content {
-  display: block;
-  background-color: #FFFFFF;
-  margin-top: 20px;
-  height: 80px;
-  border: 2px solid #E0E0E0;
+    display: block;
+    background-color: #FFFFFF;
+    height: 80px;
+    border: 2px solid #E0E0E0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-content-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.dashboard-content-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+    font-size: 14px;
 }
 
 .dashboard-list {
-  list-style: none; 
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;    /* scroll vertical */
-  max-height: 100%;  
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 ::-webkit-scrollbar {
-  width: 1px;
+    width: 10px;
 }
 
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+}
 
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/*
+ * Stiluri pentru Butonul Reset
+ */
 .reset-button {
-  width: 150px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 150px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .reset-button:hover {
-  background-color: #d32f2f;
+    background-color: #d32f2f;
 }
 
-
+/*
+ * Stiluri pentru Legenda
+ */
 .legend {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
 }
 
 .legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .color-box {
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
 }
 
 .input {
-  background-color: #e5a845;
+    background-color: #e5a845;
 }
 
 .output {
-  background-color: #ef5c00;
+    background-color: #ef5c00;
 }
 
 .adc {
-  background-color: rgb(145, 0, 212); 
+    background-color: rgb(145, 0, 212);
 }
 
 .pwm {
-  background-color: rgb(7, 246, 162);
+    background-color: rgb(7, 246, 162);
 }
 
 .label {
-  font-size: 13px;
-  color: #222222; 
-  font-weight: bold;
+    font-size: 13px;
+    color: #222222;
+    font-weight: bold;
 }
 
-
-.view-buttons{
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+/*
+ * Stiluri pentru Board și Pinuri
+ */
+.view-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttons {
-  position: relative;
-  top: 22px;
-  left: -10px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 30px;
-  padding-right: 30px;
-  margin: 1px;
+    position: relative;
+    top: 22px;
+    left: -10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin: 1px;
 }
 
 .board {
- position: relative;
-  width: 100%; /* Îi permite să se adapteze la lățimea containerului părinte */
-  max-width: 350px; /* Setează o limită maximă de lățime pentru desktop */
-  height: auto; /* Mentine aspect ratio-ul imaginii */
-  margin: 15px auto; /* Centrează orizontal și menține o margine superioară */
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    margin: 15px auto;
 }
-.board img {
-  width: 100%;
-  height: auto; /* Foarte important, asigură că imaginea se redimensionează proporțional */
-  display: block;
-}
-.pin {
-  position: absolute;
-  width: 2.2%; /* (8px / 350px) * 100 = 2.2% */
-  height: 1.6%; /* (8px / 500px) * 100 = 1.6% */
-  color: white;
-  text-align: center;
-  line-height: 15px;
-  border-radius: 0px;
-  font-size: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
 
-  }
-  .vout {background-color: red;}
-  .gnd {background-color: black;}
-  .en {background-color: rgb(53, 52, 53);}
-  .gpioout { background-color: #ef5c00;} 
-  .gpioin { background-color: #e5a845;} 
-  .pwm {background-color: rgb(7, 246, 162);}
-  .adc { background-color: rgb(145, 0, 212); }   
-  .neconfig { background-color: rgb(46, 40, 40); }
-  .pin:hover::after {
-  content: attr(data-name);
-  position: absolute;
-  top: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  white-space: nowrap;
-  z-index: 10;
+.board img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.pin {
+    position: absolute;
+    width: 2.2%;
+    height: 1.6%;
+    color: white;
+    text-align: center;
+    line-height: 15px;
+    border-radius: 0px;
+    font-size: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.vout { background-color: red; }
+.gnd { background-color: black; }
+.en { background-color: rgb(53, 52, 53); }
+.gpioout { background-color: #ef5c00; }
+.gpioin { background-color: #e5a845; }
+.pwm { background-color: rgb(7, 246, 162); }
+.adc { background-color: rgb(145, 0, 212); }
+.neconfig { background-color: rgb(46, 40, 40); }
+
+.pin:hover::after {
+    content: attr(data-name);
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+    z-index: 10;
 }
 
 .pin:hover {
-  transform: translate(10%, 10%) scale(1.3);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+    transform: translate(10%, 10%) scale(1.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
 }
 
+/*
+ * Stiluri pentru Fereastra de Configurare
+ */
 .control-window {
-  background-color: #FFFFFF;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  border-radius: 20px;    
+    background-color: #FFFFFF;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    border-radius: 20px;
 }
 
 .unconfigured-window,
@@ -278,274 +329,258 @@ button {
 }
 
 .unconfigured-title {
-  font-style: italic;
-  margin: 0;
-  margin-top: 60%;
-  margin-left: 30%;
+    font-style: italic;
+    margin: 0;
+    margin-top: 60%;
+    margin-left: 30%;
 }
 
 .config-title {
-  margin-left: 30px;
-  margin-top: 35px;
+    margin-left: 30px;
+    margin-top: 35px;
 }
 
 .function-title {
-  margin-left: 30px;
-  margin-top: 15px;
-  font-weight: normal;
+    margin-left: 30px;
+    margin-top: 15px;
+    font-weight: normal;
 }
+
 .input-only-message {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .function-dropdown {
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  margin-left: 20px;
-  margin-right: 20px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .function-content-gpio,
 .function-content-adc,
-.function-content-pwm{
-  margin: 20px;
-  margin-bottom: 0;
-  width: auto;
-  height: 360px;
-  display: flex;
-  flex-direction: column;
+.function-content-pwm {
+    margin: 20px;
+    margin-bottom: 0;
+    width: auto;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
 }
 
 .freq-group,
 .slider-group,
 .phase-group {
-  margin-left: 10px; 
-  font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 15px;
+    margin-left: 10px;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 15px;
 }
 
 .db-rise-group,
 .db-fall-group {
-  margin-left: 10px;
-  font-size: 20px;
-  margin-top: 10px;
-  display: inline-block;
+    margin-left: 10px;
+    font-size: 20px;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 #inputRise,
-#inputFall{
-  height: 20px;
-  margin-left: 10px;
-  width: 250px;
-
+#inputFall {
+    height: 20px;
+    margin-left: 10px;
+    width: 250px;
 }
 
 #inputFreq,
 #inputPhase {
-  height: 30px;
-  background-color: #fff;
-  border-color: #ccc;
-  border-style: solid;
-  margin-top: 10px;
-  margin-right: auto;
-  border-radius: 10px;
-  display: block;
-  padding-right: 200px;
+    height: 30px;
+    background-color: #fff;
+    border-color: #ccc;
+    border-style: solid;
+    margin-top: 10px;
+    margin-right: auto;
+    border-radius: 10px;
+    display: block;
+    padding-right: 200px;
 }
 
 .slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  border-radius: 5px;  
-  background: #ccc;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #ccc;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
 }
 
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%; 
-  background: rgb(7, 246, 162);
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgb(7, 246, 162);
+    cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: rgb(7, 246, 162);
-  cursor: pointer;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgb(7, 246, 162);
+    cursor: pointer;
 }
 
-
-
 .radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Spațiu între opțiuni */
-  margin-top: 20px;
-  margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    margin-left: 50px;
 }
 
 .radio-option {
-  /* Asigură poziționarea corectă pentru input-ul ascuns */
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-/* Ascunde butonul radio nativ */
 .radio-option input[type="radio"] {
-  -webkit-appearance: none; /* Pentru browsere WebKit */
-  -moz-appearance: none;    /* Pentru browsere Mozilla */
-  appearance: none;         /* Standard */
-  position: absolute;       /* Ascunde-l, dar păstrează-l accesibil */
-  opacity: 0;
-  width: 0;
-  height: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-/* Stilizează eticheta (label) pentru a acționa ca butonul radio vizibil */
 .radio-option label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 18px; /* Dimensiunea textului */
-  color: #333;     /* Culoarea textului */
-  padding: 5px 0;  /* Spațiu intern */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+    padding: 5px 0;
 }
 
-/* Creează cercul personalizat înainte de textul etichetei */
 .radio-option label::before {
-  content: '';
-  display: inline-block;
-  width: 20px;         /* Lățimea cercului */
-  height: 20px;        /* Înălțimea cercului */
-  border: 2px solid #ccc; /* Culoarea marginii pentru starea nealeasă */
-  border-radius: 50%;  /* Face elementul circular */
-  margin-right: 10px;  /* Spațiu între cerc și text */
-  box-sizing: border-box; /* Include padding și border în lățime/înălțime */
-  flex-shrink: 0;      /* Împiedică micșorarea cercului în flexbox */
-  transition: all 0.2s ease-in-out; /* Tranziție lină pentru schimbările de stil */
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    transition: all 0.2s ease-in-out;
 }
-
 
 .radio-option input[type="radio"]:checked + label::before {
-  border-color: #e5a845;;   
-  background-color: #e5a845; 
+    border-color: #e5a845;
+    background-color: #e5a845;
 }
 
-/* .radio-option input[type="radio"][value="output"]:checked + label::before {
-
-  } */
-
-
 .adc-module-group {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .adc-title {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 #adc_module,
-#adc_channel{
-  margin-left: 10px;
-  font-weight: normal;
-  font-style: italic;
+#adc_channel {
+    margin-left: 10px;
+    font-weight: normal;
+    font-style: italic;
 }
 
-.type-senzor-group {
-  
-}
-
+.type-senzor-group {}
 
 .gpio-buttons {
-  display: flex;
-  flex-direction: row;
-  margin: 50px;
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
 }
 
 .gpio-button-high {
-  flex: 1;
-  padding: 5px;
-  margin: 5px;
+    flex: 1;
+    padding: 5px;
+    margin: 5px;
 }
 
 .gpio-button-low {
-  flex: 1;
-  padding: 5px;
-  margin: 5px;
+    flex: 1;
+    padding: 5px;
+    margin: 5px;
 }
 
 .function-buttons {
-  display: flex;
-  justify-content: center; /* Centrează butoanele pe orizontală */
-  gap: 20px; /* Adaugă spațiu de 20px între butoane */
-  margin: 20px; /* Setează marginea superioară și laterală la 20px, eliminând marginile individuale */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
 }
 
 .save-button,
 .cancel-button {
-  font-family: inherit;
-  width: 48%; 
-  padding: 10px;
-  border-radius: 50px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
-  outline: none;
-  user-select: none;
-  box-shadow: none;
+    font-family: inherit;
+    width: 48%;
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    outline: none;
+    user-select: none;
+    box-shadow: none;
 }
 
 .save-button {
-  background-color: rgb(25, 178, 208);
-  color: white;
-  border-color: rgb(25, 178, 208);
+    background-color: rgb(25, 178, 208);
+    color: white;
+    border-color: rgb(25, 178, 208);
 }
 
 .save-button:hover {
-  background-color: rgb(20, 150, 180);
-  border-color: rgb(20, 150, 180);
-  box-shadow: 0 4px 12px rgba(25, 178, 208, 0.4);
-  transform: scale(1.05);
+    background-color: rgb(20, 150, 180);
+    border-color: rgb(20, 150, 180);
+    box-shadow: 0 4px 12px rgba(25, 178, 208, 0.4);
+    transform: scale(1.05);
 }
 
 .save-button:active {
-  background-color: rgb(15, 120, 145);
-  border-color: rgb(15, 120, 145);
-  box-shadow: none;
-  transform: scale(0.98);
+    background-color: rgb(15, 120, 145);
+    border-color: rgb(15, 120, 145);
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 .cancel-button {
-  background-color: rgb(250, 242, 242);
-  color: black;
+    background-color: rgb(250, 242, 242);
+    color: black;
 }
 
 .cancel-button:hover {
-  background-color: rgb(235, 220, 220);
-  border-color: rgb(180, 170, 170);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: scale(1.05);
+    background-color: rgb(235, 220, 220);
+    border-color: rgb(180, 170, 170);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
 }
 
-/* Cancel Button - active (clic) */
 .cancel-button:active {
-  background-color: rgb(210, 190, 190);
-  border-color: rgb(150, 140, 140);
-  box-shadow: none;
-  transform: scale(0.98);
+    background-color: rgb(210, 190, 190);
+    border-color: rgb(150, 140, 140);
+    box-shadow: none;
+    transform: scale(0.98);
 }

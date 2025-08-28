@@ -127,14 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.function-content-adc').style.display = 'block';
         }
     }
-    
+
     initWebSocket();
 
     setHighButton.addEventListener('click', () => {
         if (activePin) {
             const pinId = activePin.id;
             const configData = pinConfigurations[pinId];
-            
+
             if (configData && configData.type === 'Output') {
                 sendPinStateCommand(pinId, 1);
                 const pinStateElement = document.getElementById(`pinState-${pinId}`);
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activePin) {
             const pinId = activePin.id;
             const configData = pinConfigurations[pinId];
-            
+
             if (configData && configData.type === 'Output') {
                 sendPinStateCommand(pinId, 0);
                 const pinStateElement = document.getElementById(`pinState-${pinId}`);
@@ -182,11 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pinDataName = pin.getAttribute('data-name');
             let functions = pinDataName ? pinDataName.split(' / ').map(f => f.trim()) : [];
-            
+
             if (!functions.some(f => f.includes('GPIO') || f.includes('IO'))) {
                 functions.unshift('GPIO');
             }
-            
+
             const isPwmPin = pwmPins.includes(pinId) || (pinId === 'TX0' && pwmPins.includes('IO1')) || (pinId === 'RX0' && pwmPins.includes('IO3'));
             if (isPwmPin && !functions.includes('PWM')) {
                 functions.push('PWM');
@@ -256,10 +256,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (selectedFunction.includes('PWM')) {
             configData.freq = parseInt(document.getElementById('inputFreq').value, 10) || 1000;
             configData.duty = parseInt(document.getElementById('idRange').value, 10) || 50;
+            configData.phase = parseInt(document.getElementById('inputPhase').value, 10) || 0;
         } else if (selectedFunction.includes('ADC')) {
             const adcSelect = document.querySelector('.function-content-adc .function-dropdown');
             configData.sensorType = adcSelect.options[adcSelect.selectedIndex].text;
-            configData.adcChannel = activePin.getAttribute('data-name');
+            
+            const pinDataName = activePin.getAttribute('data-name');
+            const adcChannelMatch = pinDataName.match(/ADC(\d+(?:-\d+)?)/);
+            configData.adcChannel = adcChannelMatch ? 'ADC' + adcChannelMatch[1] : 'N/A';
         }
 
         pinConfigurations[pinId] = configData;
@@ -267,9 +271,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         activePin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'neconfig');
         let dashboardHTML = '';
+        let dashboardClass = '';
 
         if (selectedFunction.includes('GPIO') || selectedFunction.includes('IO')) {
             activePin.classList.add(configData.type === 'Input' ? 'gpioin' : 'gpioout');
+            dashboardClass = configData.type === 'Input' ? 'input' : 'output';
             dashboardHTML = `
                 <div class="dashboard-content-title">${pinId} - ${configData.functionName}</div>
                 <div class="dashboard-content-box">
@@ -279,16 +285,19 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else if (selectedFunction.includes('PWM')) {
             activePin.classList.add('pwm');
-            const { freq, duty } = configData;
+            dashboardClass = 'pwm';
+            const { freq, duty, phase } = configData;
             dashboardHTML = `
                 <div class="dashboard-content-title">PWM - ${pinId}</div>
                 <div class="dashboard-content-box">
                     <div>Freq: ${freq || 'N/A'} Hz</div>
                     <div>Duty: ${duty || 'N/A'} %</div>
+                    <div>Phase: ${phase || 'N/A'}°</div>
                 </div>
             `;
         } else if (selectedFunction.includes('ADC')) {
             activePin.classList.add('adc');
+            dashboardClass = 'adc';
             const { sensorType, adcChannel } = configData;
             dashboardHTML = `
                 <div class="dashboard-content-title">ADC - ${pinId}</div>
@@ -302,12 +311,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const existingDashboardItem = dashboardList.querySelector(`[data-pin-id="${pinId}"]`);
         if (existingDashboardItem) {
-            existingDashboardItem.innerHTML = dashboardHTML;
+            existingDashboardItem.querySelector('.dashboard-content').innerHTML = dashboardHTML;
+            existingDashboardItem.className = 'dashboard-item ' + dashboardClass;
         } else {
             const newDashboardItem = document.createElement('li');
-            newDashboardItem.classList.add('dashboard-content');
+            newDashboardItem.classList.add('dashboard-item', dashboardClass);
             newDashboardItem.setAttribute('data-pin-id', pinId);
-            newDashboardItem.innerHTML = dashboardHTML;
+
+            const newDashboardContent = document.createElement('div');
+            newDashboardContent.classList.add('dashboard-content');
+            newDashboardContent.innerHTML = dashboardHTML;
+
+            newDashboardItem.appendChild(newDashboardContent);
             dashboardList.appendChild(newDashboardItem);
         }
 
