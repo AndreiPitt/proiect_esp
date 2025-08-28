@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     let websocket;
     let activePin = null;
-    const pinConfigurations = {};
+    let pinConfigurations = {};
+    const controlWindow = document.querySelector('.control-window'); 
+    const configWindow = document.querySelector('.config-window');
+    const unconfiguredWindow = document.querySelector('.unconfigured-window');
 
     const excludedPins = ['GND', '3V3', 'RST', '5V', 'VIN', 'OD'];
     const inputOnlyPins = ['IO34', 'IO35', 'IO36', 'IO39'];
     const pwmPins = ['IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO12', 'IO13', 'IO14', 'IO15', 'IO16', 'IO17', 'IO18', 'IO19', 'IO21', 'IO22', 'IO23', 'IO25', 'IO26', 'IO27', 'IO32', 'IO33'];
 
     const allPins = document.querySelectorAll('.pin');
-    const unconfiguredWindow = document.querySelector('.unconfigured-window');
-    const configWindow = document.querySelector('.config-window');
     const configTitle = document.querySelector('.config-title');
     const functionDropdown = document.getElementById('function-dropdown');
     const dashboardList = document.querySelector('.dashboard-list');
@@ -30,6 +31,100 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Funcție de salvare a configurației în localStorage
+    function savePinConfigurations() {
+        localStorage.setItem('pinConfigurations', JSON.stringify(pinConfigurations));
+    }
+
+    // Funcție de încărcare a configurației din localStorage
+    function loadPinConfigurations() {
+        const savedConfig = localStorage.getItem('pinConfigurations');
+        if (savedConfig) {
+            pinConfigurations = JSON.parse(savedConfig);
+            Object.keys(pinConfigurations).forEach(pinId => {
+                const pin = document.getElementById(pinId);
+                if (pin) {
+                    const configData = pinConfigurations[pinId];
+                    updatePinAndDashboard(pin, configData);
+                }
+            });
+        }
+    }
+
+    // Funcție pentru actualizarea vizuală a unui pin și a dashboard-ului
+    function updatePinAndDashboard(pin, configData) {
+        pin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'neconfig');
+        let dashboardHTML = '';
+        let dashboardClass = '';
+
+        if (configData.function.includes('GPIO') || configData.function.includes('IO')) {
+            pin.classList.add(configData.type === 'Input' ? 'gpioin' : 'gpioout');
+            dashboardClass = configData.type === 'Input' ? 'input' : 'output';
+            dashboardHTML = `
+                <div class="dashboard-content-title">${pin.id} - ${configData.functionName}</div>
+                <div class="dashboard-content-box">
+                    <div>Tip: ${configData.type}</div>
+                    <div id="pinState-${pin.id}">Stare: ${configData.type === 'Output' ? 'LOW' : 'N/A'}</div>
+                </div>
+            `;
+        } else if (configData.function.includes('PWM')) {
+            pin.classList.add('pwm');
+            dashboardClass = 'pwm';
+            const { freq, duty, phase } = configData;
+            dashboardHTML = `
+                <div class="dashboard-content-title">PWM - ${pin.id}</div>
+                <div class="dashboard-content-box">
+                    <div>Freq: ${freq || 'N/A'} Hz</div>
+                    <div>Duty: ${duty || 'N/A'} %</div>
+                    <div>Phase: ${phase || 'N/A'}°</div>
+                </div>
+            `;
+        } else if (configData.function.includes('ADC')) {
+            pin.classList.add('adc');
+            dashboardClass = 'adc';
+            const { sensorType, adcChannel } = configData;
+            dashboardHTML = `
+                <div class="dashboard-content-title">ADC - ${pin.id}</div>
+                <div class="dashboard-content-box">
+                    <div>Channel: ${adcChannel || 'N/A'}</div>
+                    <div>Type: ${sensorType}</div>
+                    <div id="adcValue-${pin.id}">Valoare: 0</div>
+                </div>
+            `;
+        }
+
+        const existingDashboardItem = dashboardList.querySelector(`[data-pin-id="${pin.id}"]`);
+        if (existingDashboardItem) {
+            existingDashboardItem.querySelector('.dashboard-content').innerHTML = dashboardHTML;
+            existingDashboardItem.className = 'dashboard-item ' + dashboardClass;
+        } else {
+            const newDashboardItem = document.createElement('li');
+            newDashboardItem.classList.add('dashboard-item', dashboardClass);
+            newDashboardItem.setAttribute('data-pin-id', pin.id);
+
+            const newDashboardContent = document.createElement('div');
+            newDashboardContent.classList.add('dashboard-content');
+            newDashboardContent.innerHTML = dashboardHTML;
+
+            newDashboardItem.appendChild(newDashboardContent);
+            dashboardList.appendChild(newDashboardItem);
+        }
+    }
+
+    // Aici se inițiază starea la prima încărcare
+    unconfiguredWindow.style.display = 'block';
+    configWindow.style.display = 'none';
+
+    // Setează toți pinii la starea 'neconfig'
+    allPins.forEach(pin => {
+        if (!excludedPins.includes(pin.id)) {
+            pin.classList.add('neconfig');
+        }
+    });
+
+    loadPinConfigurations();
+    
+    // Inițiază conexiunea WebSocket
     function initWebSocket() {
         console.log('Trying to open a WebSocket connection...');
         const gateway = `ws://192.168.4.1/ws`;
@@ -42,6 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function onOpen(event) {
         console.log('WebSocket connection opened successfully.');
+        // Trimite configurația salvată la ESP32 la reconectare
+        Object.keys(pinConfigurations).forEach(pinId => {
+            sendPinConfiguration(pinId, pinConfigurations[pinId]);
+        });
     }
 
     function onClose(event) {
@@ -176,8 +275,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         pin.addEventListener('click', () => {
             console.log(`Pin clicked! ID: ${pinId}`);
-            configWindow.style.display = 'block';
+            
+            // Logica pentru a afișa control-window pe mobil
+            if (window.innerWidth <= 768) {
+                controlWindow.style.display = 'flex'; 
+                window.scrollTo({
+                    top: controlWindow.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+
             unconfiguredWindow.style.display = 'none';
+            configWindow.style.display = 'block';
             configTitle.textContent = `Pin ${pinId}`;
 
             const pinDataName = pin.getAttribute('data-name');
@@ -230,6 +339,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activePin) {
             activePin.classList.remove('active');
         }
+        
+        // Ascunde fereastra de configurare pe mobil
+        if (window.innerWidth <= 768) {
+            controlWindow.style.display = 'none';
+        }
+
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
@@ -268,65 +383,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         pinConfigurations[pinId] = configData;
         sendPinConfiguration(pinId, configData);
-
-        activePin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'neconfig');
-        let dashboardHTML = '';
-        let dashboardClass = '';
-
-        if (selectedFunction.includes('GPIO') || selectedFunction.includes('IO')) {
-            activePin.classList.add(configData.type === 'Input' ? 'gpioin' : 'gpioout');
-            dashboardClass = configData.type === 'Input' ? 'input' : 'output';
-            dashboardHTML = `
-                <div class="dashboard-content-title">${pinId} - ${configData.functionName}</div>
-                <div class="dashboard-content-box">
-                    <div>Tip: ${configData.type}</div>
-                    <div id="pinState-${pinId}">Stare: ${configData.type === 'Output' ? 'LOW' : 'N/A'}</div>
-                </div>
-            `;
-        } else if (selectedFunction.includes('PWM')) {
-            activePin.classList.add('pwm');
-            dashboardClass = 'pwm';
-            const { freq, duty, phase } = configData;
-            dashboardHTML = `
-                <div class="dashboard-content-title">PWM - ${pinId}</div>
-                <div class="dashboard-content-box">
-                    <div>Freq: ${freq || 'N/A'} Hz</div>
-                    <div>Duty: ${duty || 'N/A'} %</div>
-                    <div>Phase: ${phase || 'N/A'}°</div>
-                </div>
-            `;
-        } else if (selectedFunction.includes('ADC')) {
-            activePin.classList.add('adc');
-            dashboardClass = 'adc';
-            const { sensorType, adcChannel } = configData;
-            dashboardHTML = `
-                <div class="dashboard-content-title">ADC - ${pinId}</div>
-                <div class="dashboard-content-box">
-                    <div>Channel: ${adcChannel || 'N/A'}</div>
-                    <div>Type: ${sensorType}</div>
-                    <div id="adcValue-${pinId}">Valoare: 0</div>
-                </div>
-            `;
-        }
-
-        const existingDashboardItem = dashboardList.querySelector(`[data-pin-id="${pinId}"]`);
-        if (existingDashboardItem) {
-            existingDashboardItem.querySelector('.dashboard-content').innerHTML = dashboardHTML;
-            existingDashboardItem.className = 'dashboard-item ' + dashboardClass;
-        } else {
-            const newDashboardItem = document.createElement('li');
-            newDashboardItem.classList.add('dashboard-item', dashboardClass);
-            newDashboardItem.setAttribute('data-pin-id', pinId);
-
-            const newDashboardContent = document.createElement('div');
-            newDashboardContent.classList.add('dashboard-content');
-            newDashboardContent.innerHTML = dashboardHTML;
-
-            newDashboardItem.appendChild(newDashboardContent);
-            dashboardList.appendChild(newDashboardItem);
-        }
+        updatePinAndDashboard(activePin, configData);
+        savePinConfigurations(); // Salvează configuratia
 
         activePin.classList.remove('active');
+        
+        // Ascunde fereastra de configurare pe mobil
+        if (window.innerWidth <= 768) {
+            controlWindow.style.display = 'none';
+        }
+
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
@@ -346,12 +412,19 @@ document.addEventListener('DOMContentLoaded', () => {
             pin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'active');
             pin.classList.add('neconfig');
         });
+        
+        // Ascunde fereastra de configurare pe mobil
+        if (window.innerWidth <= 768) {
+            controlWindow.style.display = 'none';
+        }
+
         configWindow.style.display = 'none';
         unconfiguredWindow.style.display = 'block';
         activePin = null;
 
         Object.keys(pinConfigurations).forEach(key => delete pinConfigurations[key]);
         dashboardList.innerHTML = '';
+        savePinConfigurations(); // Salvează starea goală
     });
 
     functionDropdown.addEventListener('change', selectFunctionPin);
