@@ -1,6 +1,6 @@
 /*
- * Stiluri Generale
- */
+ * Stiluri Generale
+ */
 body {
     background-color: #F5F5F7;
     font-family: 'Segoe UI', Roboto, Arial, sans-serif;
@@ -51,8 +51,8 @@ button {
 }
 
 /*
- * Layout-ul Principal
- */
+ * Layout-ul Principal
+ */
 .container {
     display: flex;
     flex-direction: row;
@@ -94,7 +94,6 @@ button {
     flex-direction: column;
     margin-right: 10px;
     height: 100%;
-    /* Ajustare cheie pentru bara de derulare */
     min-height: 0;
 }
 
@@ -105,8 +104,8 @@ button {
 }
 
 /*
- * Stiluri pentru Dashboard
- */
+ * Stiluri pentru Dashboard
+ */
 .dashboard-title {
     font-size: 20px;
     font-style: italic;
@@ -149,7 +148,11 @@ button {
     list-style: none;
     margin: 0;
     padding: 0;
+    
+    /* Modificarea pentru bara de derulare */
+    max-height: 480px;
     overflow-y: auto;
+    
     flex-grow: 1;
 }
 
@@ -167,8 +170,8 @@ button {
 }
 
 /*
- * Stiluri pentru Butonul Reset
- */
+ * Stiluri pentru Butonul Reset
+ */
 .reset-button {
     width: 150px;
     padding: 10px 20px;
@@ -186,8 +189,8 @@ button {
 }
 
 /*
- * Stiluri pentru Legenda
- */
+ * Stiluri pentru Legenda
+ */
 .legend {
     display: flex;
     justify-content: center;
@@ -233,8 +236,8 @@ button {
 }
 
 /*
- * Stiluri pentru Board și Pinuri
- */
+ * Stiluri pentru Board și Pinuri
+ */
 .view-buttons {
     display: flex;
     justify-content: center;
@@ -311,8 +314,8 @@ button {
 }
 
 /*
- * Stiluri pentru Fereastra de Configurare
- */
+ * Stiluri pentru Fereastra de Configurare
+ */
 .control-window {
     background-color: #FFFFFF;
     flex: 1;
