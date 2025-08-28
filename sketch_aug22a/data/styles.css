@@ -90,9 +90,9 @@ button {
 }
 
 .item.c {
-  grid-row: 2;
-  grid-column: 1 / span 2; 
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard-title {
@@ -127,8 +127,24 @@ button {
 }
 
 
+.reset-button {
+  width: 150px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #d32f2f;
+}
+
+
 .legend {
-  flex: 4.75;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -136,7 +152,6 @@ button {
   padding: 10px 20px;
   border-radius: 8px;
   font-family: Arial, sans-serif;
-
 }
 
 .legend-item {
@@ -175,9 +190,9 @@ button {
 
 
 .view-buttons{
-  flex: 2;
-  justify-content: space-between;
-  padding-left: 25px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
 }
 
 .buttons {

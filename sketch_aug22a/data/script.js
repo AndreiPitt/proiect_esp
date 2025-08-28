@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function onClose(event) {
         console.log('WebSocket connection closed. Reconnecting...');
-        setTimeout(initWebSocket, 2000);
+        // setTimeout(initWebSocket, 2000);
     }
 
     function onMessage(event) {
