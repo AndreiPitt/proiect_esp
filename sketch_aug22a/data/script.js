@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Variabile globale pentru a gestiona starea aplicației
     let websocket;
     let activePin = null;
     const pinConfigurations = {};
 
-    // Pinii cu funcții speciale
     const excludedPins = ['GND', '3V3', 'RST', '5V', 'VIN', 'OD'];
     const inputOnlyPins = ['IO34', 'IO35', 'IO36', 'IO39'];
     const pwmPins = ['IO1', 'IO2', 'IO3', 'IO4', 'IO5', 'IO12', 'IO13', 'IO14', 'IO15', 'IO16', 'IO17', 'IO18', 'IO19', 'IO21', 'IO22', 'IO23', 'IO25', 'IO26', 'IO27', 'IO32', 'IO33'];
 
-    // Selectoare DOM
     const allPins = document.querySelectorAll('.pin');
     const unconfiguredWindow = document.querySelector('.unconfigured-window');
     const configWindow = document.querySelector('.config-window');
@@ -33,10 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Funcții de comunicare WebSocket
     function initWebSocket() {
         console.log('Trying to open a WebSocket connection...');
-        const gateway = `ws://192.168.4.1/ws`; // IP-ul fix al ESP32 în mod Access Point
+        const gateway = `ws://192.168.4.1/ws`;
         websocket = new WebSocket(gateway);
         websocket.onopen = onOpen;
         websocket.onclose = onClose;
@@ -50,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function onClose(event) {
         console.log('WebSocket connection closed. Reconnecting...');
-        setTimeout(initWebSocket, 2000); // Reconectează după 2 secunde
+        setTimeout(initWebSocket, 2000);
     }
 
     function onMessage(event) {
@@ -72,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('WebSocket Error:', event);
     }
 
-    // Funcție pentru a trimite comanda de configurare a pinului
     function sendPinConfiguration(pinId, config) {
         const command = {
             command: "configurePin",
@@ -87,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Funcție pentru a trimite comanda de setare a stării pinului
     function sendPinStateCommand(pinId, state) {
         const command = {
             command: "setPinState",
@@ -102,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Funcție pentru a afișa/ascunde opțiunile de configurare
     function selectFunctionPin() {
         const selectedFunction = functionDropdown.value;
         const functionContents = document.querySelectorAll('.function-content-gpio, .function-content-pwm, .function-content-adc');
@@ -135,10 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Inițiază conexiunea WebSocket
     initWebSocket();
 
-    // Modificarea majoră aici: Logică simplificată pentru butoanele Set HIGH și Set LOW
     setHighButton.addEventListener('click', () => {
         if (activePin) {
             const pinId = activePin.id;
@@ -173,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Adaugă event listener pentru fiecare pin de pe schemă
     allPins.forEach(pin => {
         const pinId = pin.id;
 
@@ -193,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const pinDataName = pin.getAttribute('data-name');
             let functions = pinDataName ? pinDataName.split(' / ').map(f => f.trim()) : [];
             
-            // Adaugă funcția "GPIO" în listă pentru toți pinii (exceptând cei excluși)
             if (!functions.some(f => f.includes('GPIO') || f.includes('IO'))) {
                 functions.unshift('GPIO');
             }
@@ -237,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event listener pentru butonul de "Cancel"
     cancelButton.addEventListener('click', () => {
         if (activePin) {
             activePin.classList.remove('active');
@@ -247,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         activePin = null;
     });
 
-    // Event listener pentru butonul de "Save"
     saveButton.addEventListener('click', () => {
         if (!activePin) return;
 
@@ -264,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             configData.type = isInputOnly || !isOutput ? 'Input' : 'Output';
             configData.functionName = functionDropdown.value;
             if (configData.type === 'Output') {
-                configData.value = 0; // Stare inițială LOW
+                configData.value = 0;
             }
         } else if (selectedFunction.includes('PWM')) {
             configData.freq = parseInt(document.getElementById('inputFreq').value, 10) || 1000;
@@ -330,8 +317,16 @@ document.addEventListener('DOMContentLoaded', () => {
         activePin = null;
     });
 
-    // Event listener pentru butonul de "Reset"
     resetButton.addEventListener('click', () => {
+        if (websocket && websocket.readyState === WebSocket.OPEN) {
+            websocket.send(JSON.stringify({
+                command: "resetPins"
+            }));
+            console.log("Sent reset command to ESP32.");
+        } else {
+            console.warn("WebSocket not connected. Reset command not sent.");
+        }
+
         allPins.forEach(pin => {
             pin.classList.remove('gpioout', 'gpioin', 'pwm', 'adc', 'active');
             pin.classList.add('neconfig');
@@ -344,10 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardList.innerHTML = '';
     });
 
-    // Asociază funcția `selectFunctionPin` la schimbarea dropdown-ului
     functionDropdown.addEventListener('change', selectFunctionPin);
 
-    // Adaugă event listener pentru slider-ul de duty cycle
     if (dutyRange && dutyOutput) {
         dutyRange.addEventListener('input', () => {
             dutyOutput.textContent = dutyRange.value + '%';

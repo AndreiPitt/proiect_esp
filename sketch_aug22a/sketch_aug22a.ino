@@ -58,22 +58,19 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
         }
 
         const char* command = doc["command"];
-        const char* pinIdStr = doc["pinId"];
-
-        if (pinIdStr == nullptr) {
-            Serial.println("Missing pinId in JSON data.");
-            return;
-        }
-
-        int gpio_num = getGpioNum(pinIdStr);
-        if (gpio_num == -1 || gpio_num >= 40) {
-            Serial.println("Invalid pinId format or not a configurable pin.");
-            return;
-        }
-
-        Serial.printf("Received command: %s for pin %s (GPIO %d)\n", command, pinIdStr, gpio_num);
 
         if (strcmp(command, "configurePin") == 0) {
+            const char* pinIdStr = doc["pinId"];
+            if (pinIdStr == nullptr) {
+                Serial.println("Missing pinId in JSON data for configurePin.");
+                return;
+            }
+            int gpio_num = getGpioNum(pinIdStr);
+            if (gpio_num == -1 || gpio_num >= 40) {
+                Serial.println("Invalid pinId format or not a configurable pin.");
+                return;
+            }
+
             const char* function = doc["function"];
             
             if (strstr(function, "GPIO") != nullptr || strstr(function, "IO") != nullptr) {
@@ -89,18 +86,47 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
                 }
             } else if (strstr(function, "PWM") != nullptr) {
                 int duty = doc["duty"] | 50;
-                
-                // Configurare PWM simplificată folosind analogWrite
                 analogWrite(gpio_num, map(duty, 0, 100, 0, 255));
-
                 Serial.printf("Configured GPIO %d as PWM. Duty: %d%%\n", gpio_num, duty);
             } else if (strstr(function, "ADC") != nullptr) {
                 Serial.printf("Configured GPIO %d as ADC\n", gpio_num);
             }
         } else if (strcmp(command, "setPinState") == 0) {
+            const char* pinIdStr = doc["pinId"];
+            if (pinIdStr == nullptr) {
+                Serial.println("Missing pinId in JSON data for setPinState.");
+                return;
+            }
+            int gpio_num = getGpioNum(pinIdStr);
+            if (gpio_num == -1 || gpio_num >= 40) {
+                Serial.println("Invalid pinId format or not a configurable pin.");
+                return;
+            }
+
             int newState = doc["value"];
             digitalWrite(gpio_num, newState);
             Serial.printf("Set GPIO %d to %d\n", gpio_num, newState);
+        } else if (strcmp(command, "resetPins") == 0) {
+            Serial.println("Received reset command. Resetting all configurable pins to default state.");
+            
+            const int configurablePins[] = {
+                1, 2, 3, 4, 5, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 32, 33, 34, 35, 36, 39
+            };
+            const int numPins = sizeof(configurablePins) / sizeof(configurablePins[0]);
+            
+            for (int i = 0; i < numPins; i++) {
+                int pin_num = configurablePins[i];
+                
+                // Oprește explicit PWM-ul, dacă este activ
+                analogWrite(pin_num, 0); 
+                
+                // Oprește ADC-ul (nu este necesar în mod explicit, dar e bine de știut că poate fi o problemă)
+                // ADC-ul pe ESP32 se "eliberează" când nu este citit, dar e bine să se evite conflictele.
+                
+                // Setează pinul înapoi la starea implicită: INPUT
+                pinMode(pin_num, INPUT);
+            }
+            Serial.println("All configurable pins have been reset.");
         }
     }
 }
