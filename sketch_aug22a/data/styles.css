@@ -1,10 +1,13 @@
 body {
+    background-color: #F5F5F7;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 16px;
+    color: #222222;
+    margin: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: #F5F5F7;
-    font-family: 'Segoe UI', Roboto, Arial, sans-serif; /* Font clar, tehnic */
-    font-size: 16px; /* Dimensiune de bază ușor lizibilă */
-    color: #222222; /* Contrast bun */
+    align-items: center;
   }
 
 p {
@@ -46,15 +49,13 @@ button {
 
 
 .container {
-  position: relative;
-  left: 50px;
-  top: 150px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 700px;
-  width: 1400px;
   gap: 10px;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 90%;
 }
 
 .view-window {
