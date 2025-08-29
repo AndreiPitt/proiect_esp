@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    //test
+
     // Funcție de salvare a configurației în localStorage
     function savePinConfigurations() {
         localStorage.setItem('pinConfigurations', JSON.stringify(pinConfigurations));
@@ -127,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inițiază conexiunea WebSocket
     function initWebSocket() {
         console.log('Trying to open a WebSocket connection...');
-        const gateway = `ws://192.168.4.1/ws`;
+        const gateway = `ws://${window.location.hostname}/ws`;
         websocket = new WebSocket(gateway);
         websocket.onopen = onOpen;
         websocket.onclose = onClose;

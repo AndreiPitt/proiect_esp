@@ -5,8 +5,8 @@
 #include <ArduinoJson.h>
 
 // Detalii rețea Wi-Fi (configurat ca Access Point)
-const char *ssid = "ESPu-lu-Pitt";
-const char *password = "12345678";
+const char *ssid = "Ghpy1668";
+const char *password = "ghpy1668";
 
 // Obiecte pentru serverul web și WebSocket
 AsyncWebServer server(80);
@@ -134,12 +134,19 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
 // Inițializare server web
 void initWebServer() {
     Serial.begin(115200);
-
-    WiFi.softAP(ssid, password);
+    WiFi.begin(ssid, password);
+    // WiFi.softAP(ssid, password);
     delay(2000);
-    Serial.print("Access Point IP: ");
-    Serial.println(WiFi.softAPIP());
+    // Serial.print("Access Point IP: ");
+    // Serial.println(WiFi.softAPIP());
 
+    while(WiFi.status() != WL_CONNECTED){
+      delay(1000);
+    }
+
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    
     if (!LittleFS.begin(true)) {
         Serial.println("LittleFS Mount Failed!");
         return;
